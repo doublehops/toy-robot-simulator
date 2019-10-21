@@ -59,12 +59,16 @@ class ToyRobotSimulator
         switch ($this->current_f) {
             case 'N':
                 $y++;
+                break;
             case 'S':
                 $y--;
+                break;
             case 'E':
                 $x++;
+                break;
             case 'W':
                 $x--;
+                break;
         }
 
         if (!$this->isWithinValidRange($x, $y)) {
@@ -73,6 +77,38 @@ class ToyRobotSimulator
 
         $this->current_x = $x;
         $this->current_y = $y;
+    }
+
+    /**
+     * Point robot one position left.
+     */
+    public function left()
+    {
+        $directions = ['N', 'E', 'S', 'W'];
+
+        $key = array_search($this->current_f, $directions);
+
+        if ($key == 0) {
+            $this->current_f = $directions[3];
+        } else {
+            $this->current_f = $directions[$key-1];
+        }
+    }
+
+    /**
+     * Point robot one position right.
+     */
+    public function right()
+    {
+        $directions = ['N', 'E', 'S', 'W'];
+
+        $key = array_search($this->current_f, $directions);
+
+        if ($key == 3) {
+            $this->current_f = $directions[0];
+        } else {
+            $this->current_f = $directions[$key+1];
+        }
     }
 
     public function report()
@@ -106,5 +142,15 @@ class ToyRobotSimulator
     protected function isOnBoard()
     {
         return $this->onBoard;
+    }
+
+    /**
+     * Log output to file.
+     *
+     * @param mixed $msg
+     */
+    public function logger($msg)
+    {
+        file_put_contents('/tmp/app.log', date('Y-m-d H:i:s') ." | $msg\n", FILE_APPEND);
     }
 }
