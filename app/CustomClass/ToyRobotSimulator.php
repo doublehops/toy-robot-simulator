@@ -84,6 +84,10 @@ class ToyRobotSimulator
      */
     public function left()
     {
+        if (!$this->isOnBoard()) {
+            return 'The robot has not yet been placed on the board.';
+        }
+
         $directions = ['N', 'E', 'S', 'W'];
 
         $key = array_search($this->current_f, $directions);
@@ -100,6 +104,10 @@ class ToyRobotSimulator
      */
     public function right()
     {
+        if (!$this->isOnBoard()) {
+            return 'The robot has not yet been placed on the board.';
+        }
+
         $directions = ['N', 'E', 'S', 'W'];
 
         $key = array_search($this->current_f, $directions);
