@@ -54,7 +54,6 @@ class ToyRobotSimulator
         $this->current_x = $x;
         $this->current_y = $y;
         $this->current_f = $f;
-        $this->logger('assdsdsadasda');
 
         $this->onBoard = true;
 
