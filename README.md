@@ -6,7 +6,7 @@ It has been created with Laravel 6.3.0. It requires that PHP 7.2 and Composer is
 
 There are only two files concerned with my code. They are `app/Console/Commands/StartSimulator.php` and `app/CustomClass/ToyRobotSimulator.php`.
 
-The tests are in `tests/Unit` and `tests/Feature`. Note that I couldn't get the dependency injection to work on the unit tests so they currently fail but I believe the code is correct. The feature tests work and pass as expected.
+The tests are in `tests/Unit` and `tests/Feature`. Note that I couldn't get the dependency injection to work on the unit tests so they currently fail but I believe the code is correct. I could work on that more but I am at the 5 hour limit and feel that the demonstration I have should be sufficient to gauge understanding. The feature tests work and pass as expected.
 
 ## Run application
 Check out the code to your filesystem and run the following commands:
@@ -30,5 +30,5 @@ Note: I just noticed I have put in initials for direction rather than the full w
 ## Tests
 
 The tests require PHP Unit to be installed:
-- Unit tests: `php tests/Unit`
-- Feature tests: `php tests/Feature`
+- Unit tests: `phpunit tests/Unit`
+- Feature tests: `phpunit tests/Feature`
