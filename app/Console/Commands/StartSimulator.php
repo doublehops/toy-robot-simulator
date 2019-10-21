@@ -57,6 +57,10 @@ class StartSimulator extends Command
             } else {
                 $method = $this->getCommandMap()[$command];
                 $result = $trs->$method();
+
+                if ($result) {
+                    $this->error($result);
+                }
             }
         }
 

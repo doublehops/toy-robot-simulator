@@ -44,6 +44,37 @@ class ToyRobotSimulator
         $this->onBoard = true;
     }
 
+    /**
+     * Move robot.
+     */
+    public function move()
+    {
+        if (!$this->isOnBoard()) {
+            return 'The robot has not yet been placed on the board.';
+        }
+
+        $x = $this->current_x;
+        $y = $this->current_y;
+
+        switch ($this->current_f) {
+            case 'N':
+                $y++;
+            case 'S':
+                $y--;
+            case 'E':
+                $x++;
+            case 'W':
+                $x--;
+        }
+
+        if (!$this->isWithinValidRange($x, $y)) {
+            return 'This move would place the robot in an invalid position.';
+        }
+
+        $this->current_x = $x;
+        $this->current_y = $y;
+    }
+
     public function report()
     {
         echo "REPORT:\n" .
