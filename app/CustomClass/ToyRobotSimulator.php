@@ -18,6 +18,18 @@ class ToyRobotSimulator
 
     protected $onBoard = false;
 
+    protected $error;
+
+    /**
+     * Return error to child process.
+     *
+     * @return string
+     */
+    public function getError()
+    {
+        return $this->error;
+    }
+
     /**
      * Place robot onto board.
      *
@@ -30,11 +42,13 @@ class ToyRobotSimulator
     public function place(int $x, int $y, string $f)
     {
         if ($this->isOnBoard()) {
-            return 'Robot has already been placed on the board.';
+            $this->error = 'Robot has already been placed on the board.';
+            return false;
         }
 
         if (!$this->isWithinValidRange($x, $y)) {
-            return 'Selection is not within valid range.';
+            $this->error = 'Selection is not within valid range.';
+            return false;
         }
 
         $this->current_x = $x;
@@ -42,6 +56,8 @@ class ToyRobotSimulator
         $this->current_f = $f;
 
         $this->onBoard = true;
+
+        return true;
     }
 
     /**
@@ -50,7 +66,8 @@ class ToyRobotSimulator
     public function move()
     {
         if (!$this->isOnBoard()) {
-            return 'The robot has not yet been placed on the board.';
+            $this->error = 'The robot has not yet been placed on the board.';
+            return false;
         }
 
         $x = $this->current_x;
@@ -72,11 +89,14 @@ class ToyRobotSimulator
         }
 
         if (!$this->isWithinValidRange($x, $y)) {
-            return 'This move would place the robot in an invalid position.';
+            $this->error = 'This move would place the robot in an invalid position.';
+            return false;
         }
 
         $this->current_x = $x;
         $this->current_y = $y;
+
+        return true;
     }
 
     /**
@@ -85,7 +105,8 @@ class ToyRobotSimulator
     public function left()
     {
         if (!$this->isOnBoard()) {
-            return 'The robot has not yet been placed on the board.';
+            $this->error = 'The robot has not yet been placed on the board.';
+            return false;
         }
 
         $directions = ['N', 'E', 'S', 'W'];
@@ -97,6 +118,8 @@ class ToyRobotSimulator
         } else {
             $this->current_f = $directions[$key-1];
         }
+
+        return true;
     }
 
     /**
@@ -105,7 +128,8 @@ class ToyRobotSimulator
     public function right()
     {
         if (!$this->isOnBoard()) {
-            return 'The robot has not yet been placed on the board.';
+            $this->error = 'The robot has not yet been placed on the board.';
+            return false;
         }
 
         $directions = ['N', 'E', 'S', 'W'];
@@ -117,6 +141,8 @@ class ToyRobotSimulator
         } else {
             $this->current_f = $directions[$key+1];
         }
+
+        return true;
     }
 
     public function report()
@@ -125,6 +151,8 @@ class ToyRobotSimulator
              "Position X: ". $this->current_x .".\n" .
              "Position Y: ". $this->current_y .".\n" .
              "Facing: ". $this->current_f .".\n";
+
+        return true;
     }
 
     /**

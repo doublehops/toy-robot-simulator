@@ -47,19 +47,16 @@ class StartSimulator extends Command
                 if (!$placeValues = $this->getPlaceValues($command)) {
                     $this->error("Place command `$command` is not valid. It should be eg. P 1,3,N");
                 } else {
-                    $result = $trs->place((int)$placeValues[0], (int)$placeValues[1], $placeValues[2]);
-                    if ($result) {
-                        $this->error($result);
+                    if (!$trs->place((int)$placeValues[0], (int)$placeValues[1], $placeValues[2])) {
+                        $this->error($trs->getError());
                     }
                 }
             } elseif (!$this->isValidCommand($command)) {
                 $this->error("Command `$command` is not valid.");
             } else {
                 $method = $this->getCommandMap()[$command];
-                $result = $trs->$method();
-
-                if ($result) {
-                    $this->error($result);
+                if (!$trs->$method()) {
+                    $this->error($trs->getError());
                 }
             }
         }
