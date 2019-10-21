@@ -145,11 +145,14 @@ class ToyRobotSimulator
         return true;
     }
 
+    /**
+     * Get report
+     *
+     * @return string
+     */
     public function report()
     {
-        echo $this->current_x .','. $this->current_y .','. $this->current_f;
-
-        return true;
+        return $this->current_x .','. $this->current_y .','. $this->current_f;
     }
 
     /**

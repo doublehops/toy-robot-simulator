@@ -53,6 +53,9 @@ class StartSimulator extends Command
                 }
             } elseif (!$this->isValidCommand($command)) {
                 $this->error("Command `$command` is not valid.");
+            } elseif ($command == 'REPORT') {
+                $report = $trs->report();
+                $this->line($report);
             } else {
                 $method = $this->getCommandMap()[$command];
                 if (!$trs->$method()) {
