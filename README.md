@@ -32,3 +32,10 @@ Note: I just noticed I have put in initials for direction rather than the full w
 The tests require PHP Unit to be installed:
 - Unit tests: `phpunit tests/Unit`
 - Feature tests: `phpunit tests/Feature`
+
+## Further notes
+
+Some cleanup could be done by exceeding the time limit a little.
+
+- The getCommandMap() method could be removed now that the application evolved.
+- The control in the handle() method could be cleaned up.
