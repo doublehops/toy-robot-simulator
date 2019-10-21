@@ -43,8 +43,16 @@ class StartSimulator extends Command
         while (true) {
             $command = $this->ask('What is your command?');
 
-            if (!$this->isValidCommand($command)) {
+            if ($command[0] == 'P') {
+                if (!$placeValues = $this->getPlaceValues($command)) {
+                    $this->error("Place command `$command` is not valid. It should be eg. P 1,3,N");
+                } else {
+                    $result = $trs->place((int)$placeValues[0], (int)$placeValues[1], $placeValues[2]);
+                }
+            } elseif (!$this->isValidCommand($command)) {
                 $this->error("Command `$command` is not valid.");
+            } else {
+                $result = $trs->$commandMap[$command];
             }
         }
 
@@ -60,6 +68,29 @@ class StartSimulator extends Command
     protected function isValidCommand($command)
     {
         return array_key_exists($command, $this->commandMap());
+    }
+
+    /**
+     * Get PLACE values to pass to method. If values are valid then return false.
+     *
+     * @param string $command
+     * @return mixed array|boolean
+     */
+    protected function getPlaceValues($command)
+    {
+        $command = str_replace('P ', '', $command);
+        $values = explode(',', $command);
+
+        if (count($values) != 3) {
+            return false;
+        }
+
+        if (is_numeric($values[0]) && is_numeric($values[1]) && in_array($values[2], ['N','S','E','W'])) {
+            $this->logger('true');
+            return [$values[0], $values[1], $values[2]];
+        }
+
+        return false;
     }
 
     /**
@@ -91,5 +122,15 @@ class StartSimulator extends Command
                    "REPORT: P\n";
 
         print($message);
+    }
+
+    /**
+     * Log output to file.
+     *
+     * @param mixed $msg
+     */
+    public function logger($msg)
+    {
+        file_put_contents('/tmp/app.log', date('Y-m-d H:i:s') ." | $msg\n", FILE_APPEND);
     }
 }
