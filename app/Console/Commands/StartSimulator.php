@@ -43,7 +43,7 @@ class StartSimulator extends Command
         while (true) {
             $command = $this->ask('What is your command?');
 
-            if ($command[0] == 'P') {
+            if (preg_match('/^PLACE /', $command)) {
                 if (!$placeValues = $this->getPlaceValues($command)) {
                     $this->error("Place command `$command` is not valid. It should be eg. P 1,3,N");
                 } else {
@@ -83,7 +83,7 @@ class StartSimulator extends Command
      */
     protected function getPlaceValues($command)
     {
-        $command = str_replace('P ', '', $command);
+        $command = str_replace('PLACE ', '', $command);
         $values = explode(',', $command);
 
         if (count($values) != 3) {
@@ -105,11 +105,11 @@ class StartSimulator extends Command
     protected function getCommandMap()
     {
         return [
-                'P' => 'place',
-                'M' => 'move',
-                'L' => 'left',
-                'R' => 'right',
-                'T' => 'report',
+                'PLACE' => 'place',
+                'MOVE' => 'move',
+                'LEFT' => 'left',
+                'RIGHT' => 'right',
+                'REPORT' => 'report',
         ];
     }
 
@@ -119,11 +119,11 @@ class StartSimulator extends Command
     protected function printHelpMessage()
     {
         $message = "Commands are:\n\n" .
-                   "PLACE: P x,y,f\n" .
-                   "MOVE: M\n" .
-                   "LEFT: L\n" .
-                   "RIGHT: R\n" .
-                   "REPORT: T\n";
+                   "PLACE x,y,f\n" .
+                   "MOVE\n" .
+                   "LEFT\n" .
+                   "RIGHT\n" .
+                   "REPORT\n";
 
         print($message);
     }
