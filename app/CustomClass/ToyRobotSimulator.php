@@ -147,10 +147,7 @@ class ToyRobotSimulator
 
     public function report()
     {
-        echo "REPORT:\n" .
-             "Position X: ". $this->current_x .".\n" .
-             "Position Y: ". $this->current_y .".\n" .
-             "Facing: ". $this->current_f .".\n";
+        echo $this->current_x .','. $this->current_y .','. $this->current_f;
 
         return true;
     }
