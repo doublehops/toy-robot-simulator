@@ -109,15 +109,13 @@ class ToyRobotSimulator
             return false;
         }
 
-        $directions = ['N', 'E', 'S', 'W'];
+        $directions = ['N' => 'W', 
+                       'W' => 'S', 
+                       'S' => 'E',
+                       'E' => 'N'
+        ];
 
-        $key = array_search($this->current_f, $directions);
-
-        if ($key == 0) {
-            $this->current_f = $directions[3];
-        } else {
-            $this->current_f = $directions[$key-1];
-        }
+        $this->current_f = $directions[$this->current_f];
 
         return true;
     }
@@ -132,15 +130,13 @@ class ToyRobotSimulator
             return false;
         }
 
-        $directions = ['N', 'E', 'S', 'W'];
+        $directions = ['N' => 'E', 
+                       'E' => 'S', 
+                       'S' => 'W',
+                       'W' => 'N'
+        ];
 
-        $key = array_search($this->current_f, $directions);
-
-        if ($key == 3) {
-            $this->current_f = $directions[0];
-        } else {
-            $this->current_f = $directions[$key+1];
-        }
+        $this->current_f = $directions[$this->current_f];
 
         return true;
     }
