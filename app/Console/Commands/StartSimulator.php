@@ -48,11 +48,15 @@ class StartSimulator extends Command
                     $this->error("Place command `$command` is not valid. It should be eg. P 1,3,N");
                 } else {
                     $result = $trs->place((int)$placeValues[0], (int)$placeValues[1], $placeValues[2]);
+                    if ($result) {
+                        $this->error($result);
+                    }
                 }
             } elseif (!$this->isValidCommand($command)) {
                 $this->error("Command `$command` is not valid.");
             } else {
-                $result = $trs->$commandMap[$command];
+                $method = $this->getCommandMap()[$command];
+                $result = $trs->$method();
             }
         }
 
@@ -67,7 +71,7 @@ class StartSimulator extends Command
      */
     protected function isValidCommand($command)
     {
-        return array_key_exists($command, $this->commandMap());
+        return array_key_exists($command, $this->getCommandMap());
     }
 
     /**
@@ -86,7 +90,6 @@ class StartSimulator extends Command
         }
 
         if (is_numeric($values[0]) && is_numeric($values[1]) && in_array($values[2], ['N','S','E','W'])) {
-            $this->logger('true');
             return [$values[0], $values[1], $values[2]];
         }
 
@@ -98,14 +101,14 @@ class StartSimulator extends Command
      *
      * @return array
      */
-    protected function commandMap()
+    protected function getCommandMap()
     {
         return [
                 'P' => 'place',
                 'M' => 'move',
                 'L' => 'left',
                 'R' => 'right',
-                'P' => 'report',
+                'T' => 'report',
         ];
     }
 
@@ -119,7 +122,7 @@ class StartSimulator extends Command
                    "MOVE: M\n" .
                    "LEFT: L\n" .
                    "RIGHT: R\n" .
-                   "REPORT: P\n";
+                   "REPORT: T\n";
 
         print($message);
     }

@@ -16,6 +16,8 @@ class ToyRobotSimulator
     protected $current_y;
     protected $current_f;
 
+    protected $onBoard = false;
+
     /**
      * Place robot onto board.
      *
@@ -27,6 +29,10 @@ class ToyRobotSimulator
      */
     public function place(int $x, int $y, string $f)
     {
+        if ($this->isOnBoard()) {
+            return 'Robot has already been placed on the board.';
+        }
+
         if (!$this->isWithinValidRange($x, $y)) {
             return 'Selection is not within valid range.';
         }
@@ -34,11 +40,16 @@ class ToyRobotSimulator
         $this->current_x = $x;
         $this->current_y = $y;
         $this->current_f = $f;
+
+        $this->onBoard = true;
     }
 
     public function report()
     {
-        echo "REPORT";
+        echo "REPORT:\n" .
+             "Position X: ". $this->current_x .".\n" .
+             "Position Y: ". $this->current_y .".\n" .
+             "Facing: ". $this->current_f .".\n";
     }
 
     /**
@@ -54,5 +65,15 @@ class ToyRobotSimulator
                $x <= self::X_MAX &&
                $y >= self::Y_MIN &&
                $y <= self::Y_MAX;
+    }
+
+    /**
+     * Check if robot has been placed on the board;
+     *
+     * @return boolean;
+     */
+    protected function isOnBoard()
+    {
+        return $this->onBoard;
     }
 }
